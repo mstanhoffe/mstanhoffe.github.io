@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>91次元网页版-在线观看入口与番剧资源导航_二次元追番平台</title>
+<meta name="description" content="91次元网页版是一个面向二次元用户的在线追番与资源导航页面，整理番剧分区、播放入口、搜索方式与使用说明，帮助访客快速找到想看的动画内容。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23161a2b'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%237c6cff' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23ff7ab6'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0f1120;
+    --bg-soft:#161a2b;
+    --card:#1c2036;
+    --line:#2c3150;
+    --text:#e8eaf6;
+    --muted:#a3a8c9;
+    --accent:#7c6cff;
+    --accent-2:#ff7ab6;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 20px;}
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(15,17,32,.88);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;height:68px;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.5px;}
+  .logo svg{width:32px;height:32px;flex:none;}
+  .nav-links{display:flex;gap:22px;font-size:14.5px;color:var(--muted);}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    display:inline-block;padding:9px 18px;border-radius:999px;
+    background:linear-gradient(120deg,var(--accent),var(--accent-2));
+    color:#fff;font-size:14px;font-weight:600;white-space:nowrap;
+  }
+  @media(max-width:720px){
+    .nav-links{display:none;}
+  }
+
+  /* hero */
+  .hero{
+    position:relative;overflow:hidden;
+    padding:64px 0 56px;
+    background:
+      radial-gradient(700px 320px at 82% 8%,rgba(124,108,255,.28),transparent 65%),
+      radial-gradient(520px 280px at 8% 90%,rgba(255,122,182,.16),transparent 65%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;}
+  .tag{
+    display:inline-block;font-size:12.5px;color:#cfc9ff;
+    border:1px solid rgba(124,108,255,.5);
+    background:rgba(124,108,255,.12);
+    padding:4px 12px;border-radius:999px;margin-bottom:18px;
+    letter-spacing:.5px;
+  }
+  h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;font-weight:800;letter-spacing:.5px;}
+  h1 .hl{
+    background:linear-gradient(100deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{margin-top:18px;color:var(--muted);font-size:15.5px;max-width:34em;}
+  .hero-actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 24px;border-radius:12px;font-size:15px;font-weight:600;
+    transition:transform .18s ease,opacity .18s ease;
+  }
+  .btn-primary{background:linear-gradient(120deg,var(--accent),var(--accent-2));color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.03);}
+  .btn-ghost:hover{transform:translateY(-2px);}
+  .hero-art{
+    border-radius:22px;border:1px solid var(--line);
+    background:linear-gradient(160deg,#1d2140,#12142a);
+    padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.35);
+  }
+  .hero-art h2{font-size:15px;font-weight:700;margin-bottom:6px;}
+  .hero-art .sub{font-size:12.5px;color:var(--muted);margin-bottom:16px;}
+  .mini-list{display:flex;flex-direction:column;gap:10px;}
+  .mini-item{
+    display:flex;align-items:center;gap:12px;
+    background:rgba(255,255,255,.035);border:1px solid var(--line);
+    border-radius:12px;padding:10px 12px;font-size:13.5px;
+  }
+  .mini-item .dot{
+    width:10px;height:10px;border-radius:50%;flex:none;
+    background:linear-gradient(120deg,var(--accent),var(--accent-2));
+  }
+  .mini-item span.meta{margin-left:auto;color:var(--muted);font-size:12px;}
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:36px;}
+    .hero{padding:44px 0 40px;}
+  }
+
+  /* section basics */
+  section{padding:56px 0;}
+  .sec-head{margin-bottom:30px;}
+  .sec-head h2{font-size:clamp(21px,2.6vw,27px);font-weight:800;letter-spacing:.3px;}
+  .sec-head p{margin-top:8px;color:var(--muted);font-size:14.5px;max-width:46em;}
+  .divider{height:1px;background:var(--line);}
+
+  /* zones */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px;
+    transition:transform .2s ease,border-color .2s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(124,108,255,.55);}
+  .card .icon{
+    width:42px;height:42px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(124,108,255,.15);margin-bottom:16px;
+  }
+  .card h3{font-size:16.5px;font-weight:700;margin-bottom:8px;}
+  .card p{font-size:14px;color:var(--muted);}
+  @media(max-width:860px){.cards{grid-template-columns:1fr;}}
+
+  /* entry list */
+  .entry-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .entry{
+    display:flex;gap:16px;align-items:flex-start;
+    background:var(--bg-soft);border:1px solid var(--line);
+    border-radius:var(--radius);padding:20px;
+  }
+  .entry .num{
+    font-size:13px;font-weight:700;color:#cfc9ff;
+    border:1px solid rgba(124,108,255,.45);
+    background:rgba(124,108,255,.1);
+    width:34px;height:34px;border-radius:10px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .entry h3{font-size:15.5px;margin-bottom:6px;}
+  .entry p{font-size:13.5px;color:var(--muted);}
+  @media(max-width:760px){.entry-list{grid-template-columns:1fr;}}
+
+  /* search panel */
+  .search-panel{
+    background:linear-gradient(150deg,#1d2140,#141731);
+    border:1px solid var(--line);border-radius:20px;
+    padding:34px;
+  }
+  .search-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;}
+  .search-row input{
+    flex:1 1 260px;min-width:0;
+    background:#0f1120;border:1px solid var(--line);
+    color:var(--text);border-radius:12px;
+    padding:13px 16px;font-size:14.5px;font-family:inherit;
+    outline:none;
+  }
+  .search-row input:focus{border-color:var(--accent);}
+  .search-row button{
+    padding:13px 26px;border-radius:12px;border:none;cursor:pointer;
+    background:linear-gradient(120deg,var(--accent),var(--accent-2));
+    color:#fff;font-size:15px;font-weight:600;font-family:inherit;
+  }
+  .search-hint{margin-top:14px;font-size:13px;color:var(--muted);}
+  #searchResult{margin-top:16px;font-size:14px;color:#cfc9ff;min-height:22px;}
+
+  /* prose */
+  .prose{max-width:52em;}
+  .prose h3{font-size:17px;font-weight:700;margin:26px 0 8px;}
+  .prose h3:first-child{margin-top:0;}
+  .prose p{font-size:14.8px;color:var(--muted);margin-bottom:12px;}
+  .prose strong{color:var(--text);font-weight:600;}
+
+  /* faq */
+  .faq{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .faq-item{
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--card);padding:22px;
+  }
+  .faq-item h3{font-size:15.5px;margin-bottom:8px;}
+  .faq-item p{font-size:13.8px;color:var(--muted);}
+  @media(max-width:760px){.faq{grid-template-columns:1fr;}}
+
+  /* download strip */
+  .dl-strip{
+    display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;
+    border:1px dashed rgba(124,108,255,.5);
+    border-radius:18px;padding:26px 30px;
+    background:rgba(124,108,255,.07);
+  }
+  .dl-strip h3{font-size:17px;margin-bottom:6px;}
+  .dl-strip p{font-size:13.8px;color:var(--muted);max-width:40em;}
+  .dl-strip a.dl{
+    display:inline-block;padding:12px 28px;border-radius:12px;
+    background:linear-gradient(120deg,var(--accent),var(--accent-2));
+    color:#fff;font-weight:600;font-size:15px;
+    pointer-events:none;opacity:.9;
+  }
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 0 34px;margin-top:20px;
+    background:#0c0e1b;
+  }
+  .foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;}
+  .foot-brand{max-width:22em;}
+  .foot-brand .logo{margin-bottom:12px;}
+  .foot-brand p{font-size:13px;color:var(--muted);}
+  .foot-links{display:flex;gap:48px;flex-wrap:wrap;}
+  .foot-links h4{font-size:13px;color:var(--text);margin-bottom:10px;font-weight:700;}
+  .foot-links a{display:block;font-size:13px;color:var(--muted);margin-bottom:8px;}
+  .foot-links a:hover{color:var(--text);}
+  .copy{
+    margin-top:30px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:12.5px;color:#6f7494;
+  }
+</style>
+    <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="91次元网页版 首页">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#161a2b"/>
+        <circle cx="32" cy="32" r="17" fill="none" stroke="#7c6cff" stroke-width="4"/>
+        <circle cx="32" cy="32" r="6" fill="#ff7ab6"/>
+      </svg>
+      <span>91次元网页版</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#zones">番剧分区</a>
+      <a href="#entry">观看入口</a>
+      <a href="#search">站内搜索</a>
+      <a href="#guide">使用说明</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+    <a class="nav-cta" href="#entry">进入资源导航</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="tag">二次元在线追番 · 资源导航</span>
+        <h1>91次元网页版</h1>
+        <p class="lead">91次元网页版是一个面向二次元用户的在线追番与资源导航页面。这里按番剧分区、观看入口、站内搜索与使用说明组织内容，帮助你在浏览器中快速定位想看的动画，无需额外安装客户端即可了解各板块的用途与访问方式。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#entry">查看观看入口</a>
+          <a class="btn btn-ghost" href="#zones">浏览番剧分区</a>
+        </div>
+      </div>
+      <aside class="hero-art" aria-label="页面板块速览">
+        <h2>页面板块速览</h2>
+        <p class="sub">91次元网页版首页内容结构</p>
+        <div class="mini-list">
+          <div class="mini-item"><span class="dot"></span>番剧分区与题材分类<span class="meta">Zones</span></div>
+          <div class="mini-item"><span class="dot"></span>观看入口与播放说明<span class="meta">Entry</span></div>
+          <div class="mini-item"><span class="dot"></span>站内搜索与结果定位<span class="meta">Search</span></div>
+          <div class="mini-item"><span class="dot"></span>浏览器使用与常见问题<span class="meta">Guide</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="wrap divider"></div>
+
+  <!-- ZONES -->
+  <section id="zones">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>番剧分区：按题材与更新状态整理</h2>
+        <p>91次元网页版把内容按题材和连载状态划分，方便访客从熟悉的分类入手。分区只承担索引作用，具体可看内容以页面实际展示为准。</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a99cff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H4z"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          </div>
+          <h3>新番连载</h3>
+          <p>以当季更新为主，标注更新进度与集数位置，适合想跟着时间线追更新的用户。</p>
+        </article>
+        <article class="card">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff9ac8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6L21 9.6l-4.5 4.3 1.1 6.1L12 17l-5.6 3 1.1-6.1L3 9.6l6.4-1z"/></svg>
+          </div>
+          <h3>完结精选</h3>
+          <p>收录已完结的作品，便于一次性连贯观看，适合补番与按题材集中浏览。</p>
+        </article>
+        <article class="card">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8fd4ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></svg>
+          </div>
+          <h3>题材标签</h3>
+          <p>按热血、日常、科幻、悬疑等标签归类，用题材线索缩小范围，减少漫无目的翻找。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTRY -->
+  <section id="entry">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>观看入口：从页面到内容的四条路径</h2>
+        <p>访问 91次元网页版 时，通常有四类入口。下表说明各自作用与使用顺序，帮助你用最短路径找到目标番剧。</p>
+      </div>
+      <div class="entry-list">
+        <div class="entry">
+          <span class="num">01</span>
+          <div>
+            <h3>首页推荐位</h3>
+            <p>首屏与推荐区域集中展示当前较受关注的作品，适合没有明确目标、想先看看有什么的访客。</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="num">02</span>
+          <div>
+            <h3>分区列表页</h3>
+            <p>进入连载或完结分区后，可按题材、更新时间浏览条目列表，逐条查看简介后再决定是否播放。</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="num">03</span>
+          <div>
+            <h3>站内搜索结果</h3>
+            <p>已知番名时优先使用搜索，输入关键词后从结果中定位具体条目，是最直接的查找方式。</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="num">04</span>
+          <div>
+            <h3>相关推荐跳转</h3>
+            <p>在作品详情区域沿相似题材或同系列作品继续浏览，适合从一个熟悉的作品扩展到相邻内容。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section id="search">
+    <div class="wrap">
+      <div class="search-panel">
+        <div class="sec-head" style="margin-bottom:0;">
+          <h2>站内搜索：输入番名快速定位</h2>
+          <p>在下方输入框填写作品名称或题材关键词，可快速查看页面收录的示例条目与对应分区。搜索仅在当前页面范围内进行演示。</p>
+        </div>
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="例如：新番、完结、科幻、悬疑" aria-label="搜索番剧条目">
+          <button id="searchBtn" type="button">搜索</button>
+        </div>
+        <p class="search-hint">提示：支持题材词与状态词组合，如“完结 悬疑”。</p>
+        <div id="searchResult" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDE -->
+  <section id="guide">
+    <div class="wrap prose">
+      <div class="sec-head">
+        <h2>使用说明：在浏览器中顺畅使用 91次元网页版</h2>
+      </div>
+      <h3>浏览器与设备</h3>
+      <p>91次元网页版以网页形式提供访问，桌面端与移动端浏览器均可打开。页面宽度会随屏幕自适应，手机端导航收起为简化布局，正文与卡片改为单列排列，阅读顺序保持从上到下。</p>
+      <h3>播放前的准备</h3>
+      <p>进入播放区域前，建议先确认网络连接稳定，并允许浏览器加载页面内的媒体资源。若播放区域长时间无响应，可尝试刷新页面或更换浏览器，具体可用性取决于页面当前提供的资源状态。</p>
+      <h3>内容范围与更新</h3>
+      <p>页面展示的番剧条目、分区与推荐位会随时间调整，更新节奏并不固定。91次元网页版 首页所呈现的是导航和分类信息，具体作品是否可看、清晰度与字幕情况以实际页面为准，本页不对单部作品作出保证。</p>
+      <h3>查找技巧</h3>
+      <p>如果只记得大致题材，可以先进入分区再按标签筛选；如果记得作品名，直接使用上方搜索框更快。两种方式结合，能减少反复翻页的时间。</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>常见问题</h2>
+        <p>整理访客在使用 91次元网页版 时较常提出的疑问，回答以页面现有功能范围为限。</p>
+      </div>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>91次元网页版需要安装客户端吗？</h3>
+          <p>不需要。它以网页形式在浏览器中访问，打开页面即可浏览分区与入口，无需额外下载安装程序。</p>
+        </div>
+        <div class="faq-item">
+          <h3>手机上能正常使用吗？</h3>
+          <p>可以。页面按响应式方式设计，手机端会切换为单列布局，导航与搜索框均可点击操作。</p>
+        </div>
+        <div class="faq-item">
+          <h3>搜索不到想看的番剧怎么办？</h3>
+          <p>可先尝试更短的名称或题材词，再进入对应分区逐条浏览；页面收录范围有限，未收录内容不会出现在结果中。</p>
+        </div>
+        <div class="faq-item">
+          <h3>页面内容会更新吗？</h3>
+          <p>分区与推荐位会根据实际资源情况调整，但更新并无固定周期，访问时以当前展示内容为准。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section id="download">
+    <div class="wrap">
+      <div class="dl-strip">
+        <div>
+          <h3>下载 91次元网页版 离线说明</h3>
+          <p>下载入口用于获取页面的离线说明文件，方便在不联网时查看分区结构与使用步骤。当前下载地址尚未开放，入口暂为禁用状态，待地址就绪后可正常使用。</p>
+        </div>
+        <a class="dl" href="#" data-download-placeholder="true" aria-disabled="true" tabindex="-1">下载</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo" href="#top">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="14" fill="#161a2b"/>
+            <circle cx="32" cy="32" r="17" fill="none" stroke="#7c6cff" stroke-width="4"/>
+            <circle cx="32" cy="32" r="6" fill="#ff7ab6"/>
+          </svg>
+          <span>91次元网页版</span>
+        </a>
+        <p>面向二次元用户的在线追番与资源导航页面，整理分区、入口与使用说明，帮助访客在浏览器中高效查找动画内容。</p>
+      </div>
+      <div class="foot-links">
+        <div>
+          <h4>页面导航</h4>
+          <a href="#zones">番剧分区</a>
+          <a href="#entry">观看入口</a>
+          <a href="#search">站内搜索</a>
+          <a href="#guide">使用说明</a>
+        </div>
+        <div>
+          <h4>帮助</h4>
+          <a href="#faq">常见问题</a>
+          <a href="#download">下载说明</a>
+          <a href="#top">返回顶部</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy">© 91次元网页版 · 内容以页面实际展示为准，资源状态可能随时调整。</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var data = [
+      {name:"新番连载", tags:["新番","连载","更新"], zone:"新番连载分区"},
+      {name:"完结精选", tags:["完结","补番"], zone:"完结精选分区"},
+      {name:"科幻题材", tags:["科幻","机甲"], zone:"题材标签 · 科幻"},
+      {name:"悬疑题材", tags:["悬疑","推理"], zone:"题材标签 · 悬疑"},
+      {name:"日常题材", tags:["日常","治愈"], zone:"题材标签 · 日常"},
+      {name:"热血题材", tags:["热血","战斗"], zone:"题材标签 · 热血"}
+    ];
+    var input = document.getElementById('searchInput');
+    var btn = document.getElementById('searchBtn');
+    var out = document.getElementById('searchResult');
+
+    function run(){
+      var q = (input.value || '').trim().toLowerCase();
+      if(!q){
+        out.textContent = '请输入番名或题材关键词后再搜索。';
+        return;
+      }
+      var words = q.split(/\s+/);
+      var hits = data.filter(function(item){
+        var text = (item.name + ' ' + item.tags.join(' ') + ' ' + item.zone).toLowerCase();
+        return words.every(function(w){ return text.indexOf(w) > -1; });
+      });
+      if(hits.length){
+        out.innerHTML = '找到 ' + hits.length + ' 条相关条目：' +
+          hits.map(function(h){ return '<strong>' + h.name + '</strong>（' + h.zone + '）'; }).join('、') +
+          '。可前往对应分区继续浏览。';
+      }else{
+        out.textContent = '本页示例条目中未找到匹配项，可尝试更短的题材词，或直接浏览番剧分区。';
+      }
+    }
+    btn.addEventListener('click', run);
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); run(); }
+    });
+  })();
+</script>
+</body>
+</html>
