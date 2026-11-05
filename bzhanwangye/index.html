@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>b站网页动态首页-网页版动态首页入口_关注动态与热门推荐查看</title>
+<meta name="description" content="b站网页动态首页使用指南：了解网页版动态首页的入口位置、关注动态与热门推荐的查看方式、时间线与分区信息组织，以及常见使用问题与操作路径。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2300a1d6'/%3E%3Cpath d='M18 24h28v18a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4z' fill='%23fff'/%3E%3Cpath d='M22 24l-4-7M42 24l4-7' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='27' cy='33' r='2.6' fill='%2300a1d6'/%3E%3Ccircle cx='37' cy='33' r='2.6' fill='%2300a1d6'/%3E%3C/svg%3E">
+<style>
+:root{
+  --blue:#00a1d6;
+  --blue-deep:#0783ad;
+  --pink:#fb7299;
+  --ink:#1b2330;
+  --ink-2:#3d4a5c;
+  --muted:#6b7789;
+  --line:#e3e9f0;
+  --bg:#f6f9fc;
+  --card:#ffffff;
+  --radius:14px;
+  --shadow:0 6px 22px rgba(23,45,74,.07);
+  --maxw:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{margin:0;line-height:1.35;letter-spacing:.2px}
+p{margin:0 0 14px}
+ul{margin:0;padding-left:1.1em}
+img,svg{max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:var(--maxw);margin:0 auto;padding:10px 20px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo:hover{text-decoration:none}
+.logo-mark{width:36px;height:36px;flex:0 0 36px}
+.logo-text{font-size:17px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+.nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.nav a{
+  padding:7px 12px;border-radius:9px;font-size:14.5px;color:var(--ink-2);
+  text-decoration:none;transition:background .2s,color .2s;
+}
+.nav a:hover{background:#eaf6fb;color:var(--blue-deep);text-decoration:none}
+.nav a.cta{background:var(--blue);color:#fff;font-weight:600}
+.nav a.cta:hover{background:var(--blue-deep);color:#fff}
+
+/* ---------- hero ---------- */
+.hero{
+  background:linear-gradient(160deg,#eaf7fd 0%,#f7fbff 55%,#fdf1f5 100%);
+  border-bottom:1px solid var(--line);
+  padding:52px 0 56px;
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+.hero h1{
+  font-size:clamp(26px,3.4vw,40px);
+  font-weight:800;
+  color:#0d1b2a;
+  letter-spacing:.5px;
+}
+.hero .tagline{
+  margin:16px 0 8px;font-size:16.5px;color:var(--ink-2);max-width:34em;
+}
+.hero .lead{font-size:15px;color:var(--muted);max-width:36em}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 22px;border-radius:11px;font-size:15px;font-weight:600;
+  text-decoration:none;transition:transform .15s,box-shadow .2s,background .2s;
+  border:1px solid transparent;
+}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(0,161,214,.28)}
+.btn-primary:hover{background:var(--blue-deep);color:#fff}
+.btn-ghost{background:#fff;color:var(--blue-deep);border-color:#bfe4f3}
+.btn-ghost:hover{background:#f0faff}
+.hero-note{margin-top:16px;font-size:13px;color:var(--muted)}
+.hero-visual{
+  background:#fff;border-radius:18px;padding:14px;box-shadow:var(--shadow);
+  border:1px solid var(--line);
+}
+.hero-visual .bar{display:flex;gap:6px;margin-bottom:10px}
+.hero-visual .bar i{width:9px;height:9px;border-radius:50%;background:#d8e2ec;display:block}
+.hero-visual .bar i:first-child{background:var(--pink)}
+.hero-visual .bar i:nth-child(2){background:#ffc86b}
+.hero-visual .bar i:nth-child(3){background:var(--blue)}
+
+/* ---------- sections ---------- */
+section{padding:56px 0}
+section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-head{max-width:760px;margin-bottom:30px}
+.sec-kicker{
+  display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:1.5px;
+  color:var(--blue-deep);background:#e6f6fd;border-radius:20px;padding:3px 12px;margin-bottom:12px;
+}
+.sec-head h2{font-size:clamp(20px,2.4vw,27px);font-weight:800;color:#0d1b2a}
+.sec-head p{margin-top:10px;color:var(--muted);font-size:15px}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:8px;
+}
+.card .ico{width:38px;height:38px;border-radius:10px;background:#eaf6fb;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.card h3{font-size:16.5px;font-weight:700;color:#12202f}
+.card p{font-size:14.5px;color:var(--ink-2);margin:0}
+.card .meta{font-size:13px;color:var(--muted);margin-top:auto;padding-top:8px;border-top:1px dashed var(--line)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.prose h3{font-size:17px;font-weight:700;margin:22px 0 8px;color:#12202f}
+.prose h3:first-child{margin-top:0}
+.prose p{font-size:15.2px;color:var(--ink-2)}
+.prose ul{color:var(--ink-2);font-size:15px}
+.prose li{margin-bottom:7px}
+
+.panel{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  box-shadow:var(--shadow);padding:22px;
+}
+.panel h3{font-size:16px;font-weight:700;margin-bottom:14px;color:#12202f}
+.step{display:flex;gap:13px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.step:last-child{border-bottom:none}
+.step .num{
+  flex:0 0 26px;width:26px;height:26px;border-radius:50%;
+  background:var(--blue);color:#fff;font-size:13px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.step strong{display:block;font-size:14.8px;color:#12202f}
+.step span{font-size:13.8px;color:var(--muted);line-height:1.65}
+
+/* toolbar */
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin-bottom:20px;box-shadow:var(--shadow);
+}
+.toolbar label{font-size:14px;color:var(--muted);font-weight:600}
+.toolbar input{
+  flex:1 1 200px;min-width:150px;padding:9px 12px;font-size:14.5px;
+  border:1px solid #cfdae5;border-radius:9px;outline:none;color:var(--ink);
+  font-family:inherit;
+}
+.toolbar input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,161,214,.15)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  border:1px solid #cfdae5;background:#fff;color:var(--ink-2);
+  padding:6px 14px;border-radius:20px;font-size:13.5px;cursor:pointer;
+  font-family:inherit;transition:.2s;
+}
+.chip:hover{border-color:var(--blue);color:var(--blue-deep)}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.empty{
+  display:none;text-align:center;color:var(--muted);font-size:14.5px;
+  padding:26px;background:#fff;border:1px dashed var(--line);border-radius:12px;
+}
+.empty.show{display:block}
+
+.faq{display:grid;gap:12px}
+details{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:14px 18px;box-shadow:var(--shadow);
+}
+details[open]{border-color:#bfe4f3}
+summary{
+  cursor:pointer;font-weight:700;font-size:15.2px;color:#12202f;
+  list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--blue);font-size:20px;font-weight:400;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:10px 0 0;font-size:14.6px;color:var(--ink-2)}
+
+.note-strip{
+  background:linear-gradient(90deg,#eaf7fd,#fdf1f5);
+  border:1px solid #d9ecf6;border-radius:14px;padding:18px 22px;
+  font-size:14.5px;color:var(--ink-2);margin-top:26px;
+}
+.note-strip strong{color:#0d1b2a}
+
+/* ---------- footer ---------- */
+.site-footer{
+  background:#0f1b28;color:#a9b8c7;padding:40px 0 26px;margin-top:0;
+}
+.footer-top{display:flex;gap:30px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start}
+.footer-brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:16px}
+.footer-brand svg{width:30px;height:30px}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px}
+.footer-links a{color:#c3d2e0;text-decoration:none}
+.footer-links a:hover{color:#fff;text-decoration:underline}
+.footer-bottom{
+  margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);
+  font-size:12.8px;color:#7e8fa0;line-height:1.8;
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero-visual{order:2}
+  .cards{grid-template-columns:1fr 1fr}
+  .split{grid-template-columns:1fr;gap:28px}
+}
+@media(max-width:620px){
+  .header-inner{padding:9px 14px;gap:10px}
+  .logo-text{font-size:15.5px;white-space:normal}
+  .nav{margin-left:0;width:100%;gap:2px}
+  .nav a{padding:6px 9px;font-size:13.5px}
+  .hero{padding:36px 0 40px}
+  .hero .tagline{font-size:15.5px}
+  .cards{grid-template-columns:1fr}
+  section{padding:40px 0}
+  .wrap{padding:0 16px}
+  .btn{padding:10px 18px;font-size:14.5px}
+  .footer-links{gap:14px}
+}
+</style>
+    <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#top" aria-label="b站网页动态首页">
+      <svg class="logo-mark" viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#00a1d6"/>
+        <path d="M18 24h28v18a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4z" fill="#ffffff"/>
+        <path d="M22 24l-4-7M42 24l4-7" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="27" cy="33" r="2.6" fill="#00a1d6"/>
+        <circle cx="37" cy="33" r="2.6" fill="#00a1d6"/>
+      </svg>
+      <span class="logo-text">b站网页动态首页</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#intro">是什么</a>
+      <a href="#entry">入口位置</a>
+      <a href="#modules">栏目构成</a>
+      <a href="#flow">查看流程</a>
+      <a href="#faq">常见问题</a>
+      <a class="cta" href="#entry">前往入口</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>b站网页动态首页</h1>
+        <p class="tagline">打开浏览器就能查看的关注动态与热门推荐集合页：把所关注 UP 主的新投稿、日常转发和平台推荐内容收在同一条时间线上。</p>
+        <p class="lead">本页围绕 b站网页动态首页 的入口位置、栏目构成与查看方式展开，帮助你快速找到网页版动态页，并理解每条内容出现在什么位置。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#entry">查看入口说明</a>
+          <a class="btn btn-ghost" href="#modules">了解栏目构成</a>
+        </div>
+        <p class="hero-note">提示：入口地址与页面样式以 B 站官方实际版本为准，本页为使用说明。</p>
+      </div>
+      <aside class="hero-visual" aria-label="动态首页结构示意">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <svg viewBox="0 0 420 260" role="img" aria-label="动态首页时间线结构示意图">
+          <rect x="0" y="0" width="420" height="260" rx="12" fill="#f6f9fc"/>
+          <rect x="16" y="16" width="120" height="12" rx="6" fill="#c9dcea"/>
+          <rect x="16" y="40" width="388" height="62" rx="10" fill="#ffffff" stroke="#e3e9f0"/>
+          <circle cx="46" cy="66" r="14" fill="#bfe4f3"/>
+          <rect x="70" y="58" width="150" height="9" rx="4.5" fill="#d3e0ea"/>
+          <rect x="70" y="76" width="230" height="8" rx="4" fill="#e6eef5"/>
+          <rect x="16" y="112" width="388" height="62" rx="10" fill="#ffffff" stroke="#e3e9f0"/>
+          <circle cx="46" cy="138" r="14" fill="#ffd8e4"/>
+          <rect x="70" y="130" width="120" height="9" rx="4.5" fill="#d3e0ea"/>
+          <rect x="70" y="148" width="260" height="8" rx="4" fill="#e6eef5"/>
+          <rect x="16" y="184" width="388" height="62" rx="10" fill="#ffffff" stroke="#e3e9f0"/>
+          <circle cx="46" cy="210" r="14" fill="#d6f0e2"/>
+          <rect x="70" y="202" width="170" height="9" rx="4.5" fill="#d3e0ea"/>
+          <rect x="70" y="220" width="200" height="8" rx="4" fill="#e6eef5"/>
+        </svg>
+      </aside>
+    </div>
+  </div>
+
+  <!-- 是什么 -->
+  <section id="intro">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">主题说明</span>
+        <h2>网页版动态首页承担什么</h2>
+        <p>它不是一个单独的内容分区，而是把关注关系产生的更新与平台推荐内容按时间顺序排布的聚合页面。理解它的定位，才能判断某条内容为何出现在这里。</p>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <h3>以关注关系为主线的信息流</h3>
+          <p>b站网页动态首页 的核心是“关注”。你在网页端关注的 UP 主发布新视频、图文、转发或直播开播时，相关内容会进入这条时间线。因此同一页面在不同时间打开，内容顺序会变化，出现的内容也取决于你当前的关注列表。</p>
+          <h3>与推荐流的区别</h3>
+          <p>首页推荐偏向按兴趣分发，动态页则偏向按关系分发。两者并不互斥：动态页中也会出现平台推荐位，但主体仍是关注对象的更新。若你发现某一类内容变多，通常与近期关注或互动行为有关。</p>
+          <h3>网页端的使用场景</h3>
+          <ul>
+            <li>在电脑上集中查看多个关注 UP 主的更新，不必逐个进入个人主页。</li>
+            <li>快速浏览标题与封面，判断是否值得点击进入播放页。</li>
+            <li>作为工作间隙的轻量浏览入口，随时刷新获取新内容。</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>页面属性速览</h3>
+          <div class="step">
+            <span class="num">1</span>
+            <div><strong>内容来源</strong><span>所关注账号的投稿、动态、转发与开播提醒。</span></div>
+          </div>
+          <div class="step">
+            <span class="num">2</span>
+            <div><strong>排列方式</strong><span>以时间线为主，新内容靠前，支持向下滚动加载更多。</span></div>
+          </div>
+          <div class="step">
+            <span class="num">3</span>
+            <div><strong>使用前提</strong><span>登录账号后，关注关系与历史记录才能生效。</span></div>
+          </div>
+          <div class="step">
+            <span class="num">4</span>
+            <div><strong>常见变化</strong><span>页面布局与模块名称会随版本调整，以实际显示为准。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 入口 -->
+  <section id="entry" class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">入口位置</span>
+        <h2>如何打开 b站网页动态首页</h2>
+        <p>网页端通常从顶部导航进入动态页。若你已经在站内，也可以直接通过站内链接跳转。以下为通用路径描述，具体文字可能随版本更新。</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>
+          </div>
+          <h3>顶部导航入口</h3>
+          <p>登录后，在站点顶部导航区域找到与“动态”相关的入口，点击即可进入动态页。该入口在不同屏幕宽度下位置略有差异。</p>
+          <p class="meta">适合日常快速访问</p>
+        </article>
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+          </div>
+          <h3>站内链接跳转</h3>
+          <p>在个人中心、消息页或关注列表附近，常能见到指向动态页的链接。通过站内链接进入，可保持当前登录状态。</p>
+          <p class="meta">适合已登录用户</p>
+        </article>
+        <article class="card">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 3v4M16 3v4"/></svg>
+          </div>
+          <h3>移动端对照</h3>
+          <p>手机浏览器访问时，页面会切换为窄屏布局，动态入口通常收在菜单或底部导航中，阅读顺序与桌面端不同。</p>
+          <p class="meta">适合小屏浏览</p>
+        </article>
+      </div>
+      <div class="note-strip">
+        <strong>关于地址：</strong>动态页地址由站方提供，可能随版本调整。建议从官方页面导航进入，而不是依赖收藏的旧链接；若旧链接失效，回到站点首页重新寻找入口即可。
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目构成 -->
+  <section id="modules">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">栏目构成</span>
+        <h2>动态页里的内容如何组织</h2>
+        <p>下面按内容类型梳理 b站网页动态首页 中常见的几类信息，便于你在浏览时快速定位。不同版本可能在名称与排序上有出入。</p>
+      </div>
+      <div class="toolbar" role="search">
+        <label for="filterInput">筛选栏目</label>
+        <input id="filterInput" type="search" placeholder="输入关键词，如：关注、推荐、投稿" autocomplete="off">
+        <div class="chips" role="group" aria-label="快速筛选">
+          <button class="chip active" type="button" data-kw="">全部</button>
+          <button class="chip" type="button" data-kw="关注">关注</button>
+          <button class="chip" type="button" data-kw="推荐">推荐</button>
+          <button class="chip" type="button" data-kw="投稿">投稿</button>
+        </div>
+      </div>
+      <div class="cards" id="moduleCards">
+        <article class="card" data-kw="关注 动态">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb7299" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 19c.6-3 2.8-4.6 5.5-4.6S14 16 14.6 19"/><path d="M17 8h4M19 6v4"/></svg>
+          </div>
+          <h3>关注动态</h3>
+          <p>关注对象的最新投稿、图文与转发集中在这里，是动态页的主体部分。发布时间越近，位置通常越靠前。</p>
+          <p class="meta">关系分发 · 按时间排列</p>
+        </article>
+        <article class="card" data-kw="推荐 热门">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><path d="M12 3l2.5 5.4 5.9.8-4.3 4.1 1.1 5.8L12 16.4 6.8 19.1l1.1-5.8L3.6 9.2l5.9-.8z"/></svg>
+          </div>
+          <h3>热门推荐</h3>
+          <p>穿插出现的平台推荐内容，依据整体热度与兴趣匹配产生，与关注列表无直接关系，可作为扩展浏览的补充。</p>
+          <p class="meta">兴趣分发 · 位置灵活</p>
+        </article>
+        <article class="card" data-kw="投稿 视频">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M10.5 10.2l3.6 1.8-3.6 1.8z" fill="#00a1d6" stroke="none"/></svg>
+          </div>
+          <h3>投稿视频</h3>
+          <p>以封面加标题的形式呈现，点击进入播放页。标题、时长与播放数据是判断是否点开的主要依据。</p>
+          <p class="meta">内容消费 · 跳转播放</p>
+        </article>
+        <article class="card" data-kw="直播 关注">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb7299" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><path d="M7 7a7 7 0 0 0 0 10M17 7a7 7 0 0 1 0 10"/></svg>
+          </div>
+          <h3>开播提醒</h3>
+          <p>已关注主播开播时，动态中会出现开播提示，点击可进入直播间。是否展示与主播设置及当前状态有关。</p>
+          <p class="meta">状态提示 · 时效较强</p>
+        </article>
+        <article class="card" data-kw="图文 转发">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><path d="M4 7h11l-2.5-2.5M20 17H9l2.5 2.5"/></svg>
+          </div>
+          <h3>图文与转发</h3>
+          <p>短文本、图片与转发内容篇幅较小，适合快速扫读。转发会保留原内容信息，便于追溯来源。</p>
+          <p class="meta">轻量内容 · 快速浏览</p>
+        </article>
+        <article class="card" data-kw="加载 时间线">
+          <div class="ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00a1d6" stroke-width="2" stroke-linecap="round"><path d="M12 5v7l4 2"/><circle cx="12" cy="12" r="8.5"/></svg>
+          </div>
+          <h3>续载与时间线</h3>
+          <p>向下滚动会持续加载更早的内容。若长时间未更新，可手动刷新页面，或检查关注列表是否发生变化。</p>
+          <p class="meta">交互行为 · 滚动加载</p>
+        </article>
+      </div>
+      <p class="empty" id="emptyTip">没有匹配的栏目，换个关键词试试。</p>
+    </div>
+  </section>
+
+  <!-- 查看流程 -->
+  <section id="flow" class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">查看流程</span>
+        <h2>一次完整的浏览路径</h2>
+        <p>把 b站网页动态首页 用顺手的顺序大致是：先登录，再进入动态页，然后筛选内容并决定是否深入。以下步骤对应实际操作动作。</p>
+      </div>
+      <div class="split">
+        <div class="panel">
+          <h3>四步操作</h3>
+          <div class="step">
+            <span class="num">1</span>
+            <div><strong>确认登录状态</strong><span>未登录时关注关系无法读取，动态内容会明显减少。先完成登录再进入。</span></div>
+          </div>
+          <div class="step">
+            <span class="num">2</span>
+            <div><strong>从导航进入动态页</strong><span>在顶部导航找到动态入口，或使用站内链接跳转，进入后等待时间线加载。</span></div>
+          </div>
+          <div class="step">
+            <span class="num">3</span>
+            <div><strong>扫读标题与封面</strong><span>优先看发布时间与内容类型，判断是视频投稿、图文转发还是开播提醒。</span></div>
+          </div>
+          <div class="step">
+            <span class="num">4</span>
+            <div><strong>决定是否深入</strong><span>感兴趣的内容点击进入播放页或详情页；不感兴趣的继续向下滚动。</span></div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>浏览节奏建议</h3>
+          <p>动态页信息密度较高，建议以“先宽后窄”的方式使用：先快速扫过一屏，标记值得回看的内容，再逐个点开。这样能避免在单条内容上停留过久，遗漏其他更新。</p>
+          <h3>关注列表的整理</h3>
+          <p>如果动态中出现大量不想看的内容，问题往往不在页面本身，而在关注范围过宽。定期整理关注列表，动态页的信息质量会随之提升。这也是 b站网页动态首页 使用体验中最容易被忽略的一环。</p>
+          <h3>与收藏、历史的配合</h3>
+          <p>动态页适合发现新内容，收藏与历史适合回看。看到有价值但当下没时间看的内容，先收藏，再回到动态页继续浏览，能减少反复刷新的次数。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-kicker">常见问题</span>
+        <h2>使用 b站网页动态首页 时的疑问</h2>
+        <p>以下为浏览过程中较常遇到的情况，回答保持通用表述，具体以站内实际功能为准。</p>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary>动态页内容很少或没有更新怎么办？</summary>
+          <p>先确认是否已登录，再检查关注列表是否为空或关注对象近期未发布内容。也可以手动刷新页面，或稍后再次访问。若个别 UP 主长期不更新，动态页自然不会出现其内容。</p>
+        </details>
+        <details>
+          <summary>为什么动态页里会出现推荐内容？</summary>
+          <p>动态页在关注内容之外，通常也会穿插平台推荐位。这类内容依据热度与兴趣匹配产生，与关注关系无关。若希望减少推荐干扰，可优先浏览靠前的关注动态部分。</p>
+        </details>
+        <details>
+          <summary>网页端和手机端的动态页一样吗？</summary>
+          <p>内容来源一致，但布局与入口位置不同。网页端信息密度更高，适合横向浏览；手机端入口多收在菜单或底部导航中，单屏展示条目更少。两者均以站方当前版本为准。</p>
+        </details>
+        <details>
+          <summary>动态的排列顺序可以调整吗？</summary>
+          <p>默认按时间线排列，新内容靠前。部分版本提供筛选或分类查看方式，可切换内容类型。排序规则属于站方功能设计，用户通常无法自定义时间顺序。</p>
+        </details>
+      </div>
+      <div class="note-strip">
+        <strong>小结：</strong>b站网页动态首页 的价值在于把关注对象的更新集中到一处，减少逐个访问主页的成本。掌握入口位置、栏目构成与浏览节奏，就能在网页端更高效地获取关注内容。
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="14" fill="#00a1d6"/>
+          <path d="M18 24h28v18a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4z" fill="#ffffff"/>
+          <path d="M22 24l-4-7M42 24l4-7" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="27" cy="33" r="2.6" fill="#00a1d6"/>
+          <circle cx="37" cy="33" r="2.6" fill="#00a1d6"/>
+        </svg>
+        <span>b站网页动态首页</span>
+      </div>
+      <nav class="footer-links" aria-label="页尾导航">
+        <a href="#intro">主题说明</a>
+        <a href="#entry">入口位置</a>
+        <a href="#modules">栏目构成</a>
+        <a href="#flow">查看流程</a>
+        <a href="#faq">常见问题</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>本页为 b站网页动态首页 的使用说明与信息整理，帮助访问者理解网页版动态页的入口、栏目与浏览方式。页面不提供账号服务，内容以站方实际版本为准。</p>
+      <p>© 2025 b站网页动态首页 · 使用指南</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var input = document.getElementById('filterInput');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#moduleCards .card'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var empty = document.getElementById('emptyTip');
+
+  function apply(kw){
+    kw = (kw || '').trim();
+    var shown = 0;
+    cards.forEach(function(c){
+      var text = c.getAttribute('data-kw') + ' ' + c.textContent;
+      var ok = !kw || text.indexOf(kw) !== -1;
+      c.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    empty.classList.toggle('show', shown === 0);
+  }
+
+  if(input){
+    input.addEventListener('input', function(){
+      chips.forEach(function(b){ b.classList.remove('active'); });
+      apply(input.value);
+    });
+  }
+  chips.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      chips.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var kw = btn.getAttribute('data-kw') || '';
+      if(input) input.value = kw;
+      apply(kw);
+    });
+  });
+})();
+</script>
+
+</body>
+  </html>
